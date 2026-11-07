@@ -1,0 +1,5 @@
+[functions.paypal]
+verify_jwt = false
+
+[functions.ai]
+verify_jwt = true

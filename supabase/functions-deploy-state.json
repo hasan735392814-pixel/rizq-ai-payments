@@ -1,0 +1,13 @@
+{
+  "projectId": "72696913",
+  "functions": {
+    "ai": {
+      "hasChanged": false,
+      "hash": "0576507c3cb51813bf957653011223a06cc2eaff8b3496b794e51205245428b9"
+    },
+    "paypal": {
+      "hasChanged": false,
+      "hash": "aad1650167f1ab6715f6039af4b405a7391c6a0023cc6fd0a077716e9c52a62d"
+    }
+  }
+}
