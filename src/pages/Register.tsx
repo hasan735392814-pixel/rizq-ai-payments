@@ -48,7 +48,7 @@ export function Register() {
     if (data.session) {
       const { error: businessError } = await supabase
         .from('businesses')
-        .insert({ name: businessName.trim(), email: email.trim() });
+        .insert({ user_id: data.session.user.id, name: businessName.trim(), email: email.trim() });
       if (businessError) {
         setSubmitting(false);
         setError('Your account was created, but we could not save your business details. Add them in Settings.');
@@ -56,6 +56,7 @@ export function Register() {
         return;
       }
       await reloadBusiness();
+      setSubmitting(false);
       notify('Your account is ready.', 'success');
       navigate('/dashboard', { replace: true });
     } else {

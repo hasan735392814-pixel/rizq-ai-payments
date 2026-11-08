@@ -3,6 +3,7 @@ import { AuthProvider } from '@/context/AuthProvider';
 import { ToastProvider } from '@/context/ToastProvider';
 import { RequireAuth } from '@/components/auth/RequireAuth';
 import { AppLayout } from '@/components/layout/AppLayout';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { Landing } from '@/pages/Landing';
 import { Login } from '@/pages/Login';
 import { Register } from '@/pages/Register';
@@ -21,10 +22,11 @@ import { NotFound } from '@/pages/NotFound';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ToastProvider>
-        <AuthProvider>
-          <Routes>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <ToastProvider>
+          <AuthProvider>
+            <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -53,5 +55,6 @@ export default function App() {
         </AuthProvider>
       </ToastProvider>
     </BrowserRouter>
+  </ErrorBoundary>
   );
 }

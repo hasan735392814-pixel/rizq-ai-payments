@@ -1,4 +1,5 @@
-import { useEffect, useId, type ReactNode } from 'react';
+import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 
 interface ModalProps {
@@ -13,6 +14,7 @@ interface ModalProps {
 
 export function Modal({ open, onClose, title, description, children, footer, size = 'md' }: ModalProps) {
   const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -28,16 +30,28 @@ export function Modal({ open, onClose, title, description, children, footer, siz
     };
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (open && dialogRef.current) {
+      dialogRef.current.focus();
+    }
+  }, [open]);
+
   if (!open) return null;
 
-  return (
-    <div className="fixed inset-0 z-40 flex items-end justify-center sm:items-center sm:p-6">
-      <div className="absolute inset-0 bg-navy-950/50 backdrop-blur-sm animate-fade-in" onClick={onClose} aria-hidden="true" />
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-end justify-center sm:items-center sm:p-6">
       <div
+        className="absolute inset-0 bg-navy-950/50 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <div
+        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`relative flex max-h-[90vh] w-full flex-col rounded-t-2xl bg-white shadow-lift animate-fade-up sm:rounded-2xl ${size === 'lg' ? 'sm:max-w-2xl' : 'sm:max-w-lg'}`}
+        tabIndex={-1}
+        className={`relative flex max-h-[90vh] w-full flex-col rounded-t-2xl bg-white shadow-lift sm:rounded-2xl ${size === 'lg' ? 'sm:max-w-2xl' : 'sm:max-w-lg'}`}
       >
         <div className="flex items-start justify-between gap-4 border-b border-navy-100 px-6 py-5">
           <div>
@@ -58,6 +72,7 @@ export function Modal({ open, onClose, title, description, children, footer, siz
         <div className="overflow-y-auto px-6 py-5">{children}</div>
         {footer && <div className="flex flex-wrap justify-end gap-3 border-t border-navy-100 px-6 py-4">{footer}</div>}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

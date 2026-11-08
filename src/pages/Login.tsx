@@ -44,7 +44,6 @@ export function Login() {
       return;
     }
     notify('Welcome back.', 'success');
-    navigate(from, { replace: true });
   };
 
   return (
