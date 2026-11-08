@@ -5,7 +5,7 @@ import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 describe('BUG 1 regression: invoice confirmation requires valid items', () => {
   it('rejects confirmation when line items are empty', () => {
     const errors = validateInvoiceDraft('Valid title', []);
-    expect(errors).toContain('The invoice total must be greater than zero.');
+    expect(errors).toContain('Add at least one line item.');
   });
 
   it('rejects confirmation when total is zero', () => {
